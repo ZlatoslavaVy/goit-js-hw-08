@@ -64,13 +64,23 @@ const images = [
   },
 ];
 
-<li class="gallery-item">
-  <a class="gallery-link" href="large-image.jpg">
+const refs = {
+    imagesGallery: document.querySelector('.gallery'),
+};
+
+const createImageCardTemplate = ({preview, original, description}) => {
+    return `<li class="gallery-item">
+  <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
-      src="small-image.jpg"
-      data-source="large-image.jpg"
-      alt="Image description"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
     />
   </a>
-</li>
+</li>`;
+};
+
+const imagesCardsTemplate = images
+
+refs.imagesGallery.innerHTML = '';
