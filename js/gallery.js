@@ -65,11 +65,11 @@ const images = [
 ];
 
 const refs = {
-    imagesGallery: document.querySelector('.gallery'),
+  ulGallery: document.querySelector(".gallery"),
 };
 
-const createImageCardTemplate = ({preview, original, description}) => {
-    return `<li class="gallery-item">
+const createImageCardTemplate = ({ preview, original, description }) => {
+  return `<li class="gallery-item">
   <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
@@ -82,5 +82,34 @@ const createImageCardTemplate = ({preview, original, description}) => {
 };
 
 const imagesCardsTemplate = images
+  .map((image) => createImageCardTemplate(image))
+  .join("");
 
-refs.imagesGallery.innerHTML = '';
+refs.ulGallery.innerHTML = imagesCardsTemplate;
+
+const onImageClick = (event) => {
+  event.preventDefault();
+  if (event.target === event.currentTarget) {
+    return;
+  }
+
+  const imageCardEl = event.target;
+
+  const imageSource = imageCardEl.dataset.source;
+
+  const { preview, original, description } = images.find(
+    (image) => image.original === imageSource,
+  );
+
+  const modalWindowInstance = basicLightbox.create(`
+    <img
+      class="gallery-image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
+    />
+    `);
+  modalWindowInstance.show();
+};
+
+refs.ulGallery.addEventListener("click", onImageClick);
